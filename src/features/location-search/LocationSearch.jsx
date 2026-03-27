@@ -6,6 +6,7 @@ import { Input, Loading } from '../../components/common'
 export function LocationSearch({ onLocationSelect }) {
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
+  const [justSelected, setJustSelected] = useState(false)
   const wrapperRef = useRef(null)
 
   const { data: results, isLoading } = useLocationSearch(query)
@@ -21,20 +22,29 @@ export function LocationSearch({ onLocationSelect }) {
   }, [])
 
   useEffect(() => {
-    if (results?.results) {
+    if (results?.results && !justSelected) {
       setIsOpen(true)
     }
-  }, [results])
+  }, [results, justSelected])
 
   const handleSelect = (location) => {
+    setJustSelected(true)
+    setIsOpen(false)
+    setQuery(location.name)
     onLocationSelect({
       name: location.name,
       latitude: location.latitude,
       longitude: location.longitude,
       country: location.country,
     })
-    setQuery(location.name)
-    setIsOpen(false)
+  }
+
+  const handleInputChange = (e) => {
+    setQuery(e.target.value)
+    setJustSelected(false)
+    if (e.target.value === '') {
+      setIsOpen(false)
+    }
   }
 
   return (
@@ -45,8 +55,8 @@ export function LocationSearch({ onLocationSelect }) {
           type="text"
           placeholder="Search city..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => query.length >= 2 && setIsOpen(true)}
+          onChange={handleInputChange}
+          onFocus={() => !justSelected && query.length >= 2 && setIsOpen(true)}
           className="pl-10"
         />
         {isLoading && (
