@@ -24,7 +24,7 @@ This document tracks the **current status** of the weather website project.
 
 ## Current Phase
 
-**Phase 6: Landing Page Enhancements** (In Progress)
+**Phase 7: Weather Visualization** (Completed)
 
 ---
 
@@ -48,6 +48,13 @@ This document tracks the **current status** of the weather website project.
   * Search bar moved to navbar
 * Phase 6: Landing Page Enhancements ✅
   * Option 1: Default city (Tavullia, Italy) shown on landing
+* Phase 7: Weather Visualization ✅
+  * Added hourly temperature chart (recharts)
+  * Replaced Lucide icons with Wi (Weather Icons) library
+  * All icons now blue (text-blue-500)
+  * Custom chart tooltip (no duplicate values)
+  * Hourly details: 5AM-3AM with 3-hour interval
+  * Consistent icon colors across all pages
 
 ---
 
@@ -59,6 +66,8 @@ See ROADMAP.md for detailed task list.
 
 ## Notes
 
-* Phase 1-6 completed (partial)
-* Landing page now shows Tavullia, Italy weather by default
-* All features working: location search, current weather, forecast, routing
+* Phase 1-7 completed
+* Landing page shows Tavullia, Italy weather by default
+* All weather icons use Wi library with blue color
+* Chart displays 5AM-3AM with 3-hour intervals
+* All features working
