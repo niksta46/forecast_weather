@@ -1,58 +1,21 @@
-import { useState, useEffect } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
-import { LocationSearch } from '../location-search'
+import { useOutletContext } from 'react-router-dom'
 import { CurrentWeather } from '../current-weather'
 import { Forecast } from '../forecast'
 import { useCurrentWeather, useForecast } from '../../api/endpoints'
-import { Card } from '../../components/common'
 
 export function HomePage() {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [selectedLocation, setSelectedLocation] = useState(null)
+  const { lat, lon, name } = useOutletContext()
 
-  useEffect(() => {
-    const lat = searchParams.get('lat')
-    const lon = searchParams.get('lon')
-    const name = searchParams.get('name')
+  const { data: weatherData, isLoading: weatherLoading, error: weatherError } = useCurrentWeather(lat, lon)
 
-    if (lat && lon && name) {
-      setSelectedLocation({ latitude: lat, longitude: lon, name, country: '' })
-    }
-  }, [])
+  const { data: forecastData, isLoading: forecastLoading, error: forecastError } = useForecast(lat, lon)
 
-  const { data: weatherData, isLoading: weatherLoading, error: weatherError } = useCurrentWeather(
-    selectedLocation?.latitude,
-    selectedLocation?.longitude
-  )
-
-  const { data: forecastData, isLoading: forecastLoading, error: forecastError } = useForecast(
-    selectedLocation?.latitude,
-    selectedLocation?.longitude
-  )
-
-  const handleLocationSelect = (location) => {
-    setSelectedLocation(location)
-    setSearchParams({
-      lat: location.latitude,
-      lon: location.longitude,
-      name: location.name,
-    })
+  if (!lat || !lon) {
+    return null
   }
 
   return (
     <div className="space-y-6">
-      <Card>
-        <LocationSearch onLocationSelect={handleLocationSelect} />
-      </Card>
-
-      {selectedLocation && (
-        <div className="flex items-center justify-between">
-          <p className="text-gray-600">
-            Showing weather for: <strong>{selectedLocation.name}</strong>, {selectedLocation.country}
-          </p>
-        </div>
-      )}
-
       <CurrentWeather
         data={weatherData}
         isLoading={weatherLoading}

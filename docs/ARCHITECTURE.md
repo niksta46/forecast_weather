@@ -34,16 +34,19 @@ src/
 ├── api/                    # API service layer
 │   ├── client.js           # Base API client
 │   ├── queryKeys.js        # TanStack Query keys
-│   └── endpoints/         # Resource-specific API hooks
-├── features/              # Feature-based UI modules
-│   ├── current-weather/   # Current weather display
-│   ├── forecast/          # Forecast display
-│   └── location-search/  # Location search
+│   └── endpoints/          # Resource-specific API hooks
+├── features/               # Feature-based UI modules
+│   ├── home/               # Home page (landing)
+│   ├── current-weather/    # Current weather display
+│   ├── forecast/           # Forecast display (hourly + daily)
+│   ├── hourly-details/     # Hourly details page
+│   ├── weekly-forecast/    # Weekly forecast page
+│   └── location-search/    # Location search
 ├── components/
-│   ├── layout/            # Header, Footer, Layout
-│   └── common/            # Reusable UI components
-├── routes/                # Router configuration
-├── styles/                # Global styles
+│   ├── layout/             # Layout, Header, Navigation
+│   └── common/             # Reusable UI components
+├── routes/                 # Router configuration
+├── styles/                 # Global styles
 └── design-system/         # Design tokens
 ```
 
@@ -119,5 +122,15 @@ External API → API Client → TanStack Query Hooks → Feature Component → U
 
 * TanStack Query for server state
 * React useState/useReducer for UI state only
+* URL search params for location persistence (shared across pages)
+
+---
+
+## Location Persistence
+
+* Selected city stored in URL search params (`?lat=&lon=&name=`)
+* Layout component handles search bar and URL state
+* Pages receive location via `useOutletContext`
+* Logo click triggers full page refresh (clears params)
 
 This document exists to prevent architectural drift.

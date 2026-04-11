@@ -100,16 +100,32 @@ Set up routing and main navigation.
 
 ### Tasks
 
-- [ ] Configure React Router
-- [ ] Create routes:
-  - [ ] Home (weather display)
-  - [ ] Hourly details
-  - [ ] Weekly forecast
-- [ ] Add header/navigation
+- [x] Configure React Router
+- [x] Create routes:
+  - [x] Home (weather display)
+  - [x] Hourly details
+  - [x] Weekly forecast
+- [x] Add header/navigation
 
 ---
 
-## Phase 6: Polish & Responsiveness
+## Phase 6: Landing Page Enhancements
+
+### Goal
+
+Make the empty landing page more professional and user-friendly.
+
+### Tasks
+
+- [ ] Option 1: Welcome/Hero Section - App title, tagline, brief description
+- [ ] Option 2: Call-to-Action - "Search for a city" message
+- [ ] Option 3: Popular Cities Quick Links - Pre-defined popular cities
+- [ ] Option 4: Use Current Location - Browser geolocation button
+- [ ] Option 5: Recent Searches - Store last searched cities in localStorage
+
+---
+
+## Phase 7: Polish & Responsiveness
 
 ### Goal
 
