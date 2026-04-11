@@ -24,7 +24,7 @@ This document tracks the **current status** of the weather website project.
 
 ## Current Phase
 
-**Phase 4: Feature Implementation** (Completed)
+**Phase 5: Routing & Navigation** (Completed)
 
 ---
 
@@ -41,6 +41,11 @@ This document tracks the **current status** of the weather website project.
   * Location Search (geocoding)
   * Current Weather Display
   * Forecast Display (hourly + daily)
+* Phase 5: Routing & Navigation ✅
+  * React Router configuration
+  * Home, Hourly Details, Weekly Forecast pages
+  * URL params for location persistence
+  * Search bar moved to navbar
 
 ---
 
@@ -52,6 +57,8 @@ See ROADMAP.md for detailed task list.
 
 ## Notes
 
-* Phase 1-4 completed
-* Ready for Phase 5 (Routing & Navigation)
-* All features working: location search, current weather, forecast
+* Phase 1-5 completed
+* All features working: location search, current weather, forecast, routing
+* Search bar now in navbar (Layout component)
+* Weather icons show Moon for nighttime clear skies
+* Ready for Phase 6 (Landing Page Enhancements)
