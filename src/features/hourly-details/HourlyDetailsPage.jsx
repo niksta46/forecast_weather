@@ -47,15 +47,22 @@ export function HourlyDetailsPage() {
 
   const hourlyData = useMemo(() => {
     if (!forecastData?.hourly?.time) return []
-    return forecastData.hourly.time.slice(0, 48).map((time, index) => ({
-      time: new Date(time),
-      temp: forecastData.hourly.temperature_2m[index],
-      feelsLike: forecastData.hourly.apparent_temperature[index],
-      humidity: forecastData.hourly.relative_humidity_2m[index],
-      windSpeed: forecastData.hourly.wind_speed_10m[index],
-      precipProb: forecastData.hourly.precipitation_probability[index],
-      weatherCode: forecastData.hourly.weather_code[index],
-    }))
+    const now = new Date()
+    const today5am = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 5, 0, 0)
+    const tomorrow3am = new Date(today5am.getTime() + 22 * 60 * 60 * 1000)
+    
+    return forecastData.hourly.time
+      .map((time, index) => ({
+        time: new Date(time),
+        temp: forecastData.hourly.temperature_2m[index],
+        feelsLike: forecastData.hourly.apparent_temperature[index],
+        humidity: forecastData.hourly.relative_humidity_2m[index],
+        windSpeed: forecastData.hourly.wind_speed_10m[index],
+        precipProb: forecastData.hourly.precipitation_probability[index],
+        weatherCode: forecastData.hourly.weather_code[index],
+      }))
+      .filter(h => h.time >= today5am && h.time <= tomorrow3am)
+      .filter((_, index) => index % 3 === 0)
   }, [forecastData])
 
   const isLoading = weatherLoading || forecastLoading
@@ -99,21 +106,9 @@ export function HourlyDetailsPage() {
         <Card>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="flex items-center gap-3">
-              <Thermometer className="w-5 h-5 text-primary-500" />
-              <div>
-                <p className="text-sm text-gray-500">Feels Like</p>
-                <p className="font-semibold">{Math.round(weatherData.current?.apparent_temperature)}°</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Droplets className="w-5 h-5 text-blue-400" />
-              <div>
-                <p className="text-sm text-gray-500">Humidity</p>
-                <p className="font-semibold">{weatherData.current?.relative_humidity_2m}%</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Wind className="w-5 h-5 text-gray-400" />
+              <Thermometer className="w-5 h-5 text-blue-500" />
+              <Droplets className="w-5 h-5 text-blue-500" />
+              <Wind className="w-5 h-5 text-blue-500" />
               <div>
                 <p className="text-sm text-gray-500">Wind</p>
                 <p className="font-semibold">{Math.round(weatherData.current?.wind_speed_10m)} km/h</p>
@@ -128,7 +123,7 @@ export function HourlyDetailsPage() {
       )}
 
       <Card>
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">48-Hour Forecast</h2>
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">24-Hour Forecast</h2>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[500px]">
             <thead>

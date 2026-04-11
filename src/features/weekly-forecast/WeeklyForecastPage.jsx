@@ -1,36 +1,39 @@
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useForecast } from '../../api/endpoints'
 import { Card, Loading, ErrorMessage, Button } from '../../components/common'
-import { Droplets, Sun, Cloud, CloudRain, CloudSnow, CloudLightning, CloudFog } from 'lucide-react'
+import { Droplets } from 'lucide-react'
 import { useMemo } from 'react'
+import * as Wi from 'react-icons/wi'
 
 const weatherCodeMap = {
-  0: { icon: Sun, label: 'Clear' },
-  1: { icon: Sun, label: 'Mainly clear' },
-  2: { icon: Cloud, label: 'Partly cloudy' },
-  3: { icon: Cloud, label: 'Overcast' },
-  45: { icon: CloudFog, label: 'Fog' },
-  48: { icon: CloudFog, label: 'Fog' },
-  51: { icon: CloudRain, label: 'Drizzle' },
-  53: { icon: CloudRain, label: 'Drizzle' },
-  55: { icon: CloudRain, label: 'Drizzle' },
-  61: { icon: CloudRain, label: 'Rain' },
-  63: { icon: CloudRain, label: 'Rain' },
-  65: { icon: CloudRain, label: 'Rain' },
-  71: { icon: CloudSnow, label: 'Snow' },
-  73: { icon: CloudSnow, label: 'Snow' },
-  75: { icon: CloudSnow, label: 'Snow' },
-  80: { icon: CloudRain, label: 'Showers' },
-  81: { icon: CloudRain, label: 'Showers' },
-  82: { icon: CloudRain, label: 'Showers' },
-  95: { icon: CloudLightning, label: 'Thunderstorm' },
-  96: { icon: CloudLightning, label: 'Thunderstorm' },
-  99: { icon: CloudLightning, label: 'Thunderstorm' },
+  0: { icon: Wi.WiDaySunny, label: 'Clear', color: 'text-blue-500' },
+  1: { icon: Wi.WiDaySunny, label: 'Mainly clear', color: 'text-blue-500' },
+  2: { icon: Wi.WiDayCloudy, label: 'Partly cloudy', color: 'text-blue-500' },
+  3: { icon: Wi.WiCloudy, label: 'Overcast', color: 'text-blue-500' },
+  45: { icon: Wi.WiFog, label: 'Fog', color: 'text-blue-500' },
+  48: { icon: Wi.WiFog, label: 'Fog', color: 'text-blue-500' },
+  51: { icon: Wi.WiCloudyGusts, label: 'Drizzle', color: 'text-blue-500' },
+  53: { icon: Wi.WiCloudyGusts, label: 'Drizzle', color: 'text-blue-500' },
+  55: { icon: Wi.WiSleet, label: 'Drizzle', color: 'text-blue-500' },
+  61: { icon: Wi.WiRain, label: 'Rain', color: 'text-blue-500' },
+  63: { icon: Wi.WiRain, label: 'Rain', color: 'text-blue-500' },
+  65: { icon: Wi.WiRainMix, label: 'Rain', color: 'text-blue-500' },
+  71: { icon: Wi.WiSnow, label: 'Snow', color: 'text-blue-500' },
+  73: { icon: Wi.WiSnow, label: 'Snow', color: 'text-blue-500' },
+  75: { icon: Wi.WiSnow, label: 'Snow', color: 'text-blue-500' },
+  80: { icon: Wi.WiShowers, label: 'Showers', color: 'text-blue-500' },
+  81: { icon: Wi.WiShowers, label: 'Showers', color: 'text-blue-500' },
+  82: { icon: Wi.WiStormShowers, label: 'Showers', color: 'text-blue-500' },
+  95: { icon: Wi.WiThunderstorm, label: 'Thunderstorm', color: 'text-blue-500' },
+  96: { icon: Wi.WiThunderstorm, label: 'Thunderstorm', color: 'text-blue-500' },
+  99: { icon: Wi.WiStormShowers, label: 'Thunderstorm', color: 'text-blue-500' },
 }
 
-function WeatherIcon({ code, className }) {
-  const WeatherComponent = weatherCodeMap[code]?.icon || Cloud
-  return <WeatherComponent className={className} />
+function WeatherIcon({ code, className = '' }) {
+  const mapping = weatherCodeMap[code]
+  const WeatherComponent = mapping?.icon || Wi.WiCloudy
+  const colorClass = mapping?.color || 'text-gray-400'
+  return <WeatherComponent className={`${colorClass} ${className}`} />
 }
 
 export function WeeklyForecastPage() {
@@ -108,7 +111,7 @@ export function WeeklyForecastPage() {
               </div>
 
               <div className="flex items-center gap-2">
-                <WeatherIcon code={day.weatherCode} className="w-8 h-8 text-gray-500" />
+                <WeatherIcon code={day.weatherCode} className="w-8 h-8" />
                 <span className="text-sm text-gray-600 w-24">
                   {weatherCodeMap[day.weatherCode]?.label || 'Unknown'}
                 </span>
@@ -116,7 +119,7 @@ export function WeeklyForecastPage() {
 
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-1">
-                  <Droplets className="w-4 h-4 text-blue-400" />
+                  <Droplets className="w-4 h-4 text-blue-500" />
                   <span className="text-sm">{day.precipProb}%</span>
                 </div>
                 

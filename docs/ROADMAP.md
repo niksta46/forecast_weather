@@ -117,7 +117,7 @@ Make the empty landing page more professional and user-friendly.
 
 ### Tasks
 
-- [ ] Option 1: Welcome/Hero Section - App title, tagline, brief description
+- [x] Option 1: Default City Display - Show weather for Tavullia, Italy on landing
 - [ ] Option 2: Call-to-Action - "Search for a city" message
 - [ ] Option 3: Popular Cities Quick Links - Pre-defined popular cities
 - [ ] Option 4: Use Current Location - Browser geolocation button
