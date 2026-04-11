@@ -1,0 +1,1 @@
+export { HourlyDetailsPage } from './HourlyDetailsPage'

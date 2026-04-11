@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import { Card, Loading, ErrorMessage } from '../../components/common'
-import { Sun, Cloud, CloudRain, CloudSnow, CloudLightning, CloudFog, Droplets } from 'lucide-react'
+import { Sun, Moon, Cloud, CloudRain, CloudSnow, CloudLightning, CloudFog, Droplets } from 'lucide-react'
 
 const weatherCodeMap = {
-  0: { icon: Sun, label: 'Clear' },
-  1: { icon: Sun, label: 'Mainly clear' },
+  0: { icon: Sun, nightIcon: Moon, label: 'Clear' },
+  1: { icon: Sun, nightIcon: Moon, label: 'Mainly clear' },
   2: { icon: Cloud, label: 'Partly cloudy' },
   3: { icon: Cloud, label: 'Overcast' },
   45: { icon: CloudFog, label: 'Fog' },
@@ -26,8 +26,9 @@ const weatherCodeMap = {
   99: { icon: CloudLightning, label: 'Thunder' },
 }
 
-function WeatherIcon({ code, className }) {
-  const WeatherComponent = weatherCodeMap[code]?.icon || Cloud
+function WeatherIcon({ code, isDay = true, className }) {
+  const mapping = weatherCodeMap[code]
+  const WeatherComponent = mapping?.nightIcon && !isDay ? mapping.nightIcon : (mapping?.icon || Cloud)
   return <WeatherComponent className={className} />
 }
 
@@ -92,6 +93,7 @@ function HourlyForecast({ hourly }) {
         temp: hourly.temperature_2m[index],
         weatherCode: hourly.weather_code?.[index] || hourly.weather_code,
         precipProb: hourly.precipitation_probability[index],
+        isDay: hourly.is_day?.[index] ?? true,
       }))
       .filter(h => h.time >= now)
       .slice(0, 24)
@@ -108,7 +110,7 @@ function HourlyForecast({ hourly }) {
             <p className="text-sm text-gray-500">
               {hour.time.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true })}
             </p>
-            <WeatherIcon code={hour.weatherCode} className="w-8 h-8 text-gray-500" />
+            <WeatherIcon code={hour.weatherCode} isDay={hour.isDay} className="w-8 h-8 text-gray-500" />
             <p className="font-medium">{Math.round(hour.temp)}°</p>
             <div className="flex items-center gap-1">
               <Droplets className="w-3 h-3 text-blue-400" />
