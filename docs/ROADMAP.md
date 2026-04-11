@@ -125,7 +125,23 @@ Make the empty landing page more professional and user-friendly.
 
 ---
 
-## Phase 7: Polish & Responsiveness
+## Phase 7: Weather Visualization
+
+### Goal
+
+Enhance weather display with charts and better icons.
+
+### Tasks
+
+- [x] Add hourly temperature chart (recharts library)
+- [x] Replace Lucide icons with Wi (Weather Icons) library for filled icons
+- [x] Make all weather icons blue (text-blue-500)
+- [x] Add custom tooltip for chart (no duplicate values)
+- [x] Update hourly details to show 5AM-3AM with 3-hour interval
+
+---
+
+## Phase 8: Polish & Responsiveness
 
 ### Goal
 
