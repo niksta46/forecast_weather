@@ -31,8 +31,9 @@ For project progress and goals, refer to:
 ## Repository Overview
 
 ```
-weather_frontend/   # React + Vite frontend (ALL WORK HERE)
+.                   # Project root (React + Vite frontend)
 docs/               # Project documentation
+src/                # Source code
 ```
 
 ---
@@ -83,11 +84,14 @@ src/
 │   ├── queryKeys.js        # TanStack Query keys
 │   └── endpoints/          # Resource-specific API hooks
 ├── features/               # Feature-based UI modules
-│   ├── current-weather/
-│   ├── forecast/
-│   └── location-search/
+│   ├── home/               # Home page (landing)
+│   ├── current-weather/    # Current weather display
+│   ├── forecast/           # Forecast display
+│   ├── hourly-details/    # Hourly details page
+│   ├── weekly-forecast/   # Weekly forecast page
+│   └── location-search/    # Location search component
 ├── components/
-│   ├── layout/             # Header, Footer
+│   ├── layout/             # Layout, Header, Navigation
 │   └── common/             # Reusable UI components
 ├── routes/                 # Router configuration
 ├── styles/                 # Global styles
@@ -133,6 +137,15 @@ API Client → TanStack Query Hooks → Feature Component → UI Component
 * Uses `createBrowserRouter`
 * Layout rendered via `<Outlet />`
 * No `{children}` pattern for routes
+* Location data passed via `useOutletContext` from Layout to pages
+
+---
+
+## Location Persistence
+
+* Selected city stored in URL search params (`?lat=&lon=&name=`)
+* Layout component handles search bar and URL state
+* Logo click triggers full page refresh (clears params)
 
 ---
 
