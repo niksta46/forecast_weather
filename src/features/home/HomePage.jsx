@@ -1,7 +1,6 @@
 import { useOutletContext } from 'react-router-dom'
 import { CurrentWeather } from '../current-weather'
 import { Forecast } from '../forecast'
-import { CityPhoto } from '../../components/common/CityPhoto'
 import { useCurrentWeather, useForecast } from '../../api/endpoints'
 
 const DEFAULT_LOCATION = {
@@ -24,12 +23,12 @@ export function HomePage() {
 
   return (
     <div className="space-y-6">
-      {/* Full-width city photo at the top */}
-      <div className="w-full">
-        <CityPhoto cityName={name} className="h-56 md:h-64 lg:h-80 object-cover" />
-      </div>
-
-      {/* Two-column layout for current weather and 7-day forecast */}
+      {isDefault && (
+        <p className="text-sm text-gray-500 text-center">
+          Showing weather for <strong>{name}</strong>, Italy
+        </p>
+      )}
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="h-full">
           <CurrentWeather
@@ -51,7 +50,6 @@ export function HomePage() {
         </div>
       </div>
 
-      {/* Hourly forecast chart below */}
       <div className="w-full">
         {forecastData?.hourly && (
           <Forecast
