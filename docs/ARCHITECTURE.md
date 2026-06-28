@@ -41,13 +41,26 @@ src/
 │   ├── forecast/           # Forecast display (hourly + daily)
 │   ├── hourly-details/     # Hourly details page
 │   ├── weekly-forecast/    # Weekly forecast page
-│   └── location-search/    # Location search
+│   ├── location-search/    # Location search
+│   └── photoService.js     # City photo service
 ├── components/
 │   ├── layout/             # Layout, Header, Navigation
+│   │   └── Layout.jsx      # Main application layout
+│   ├── charts/             # Chart components
+│   │   └── HourlyCharts.jsx# Hourly chart components
 │   └── common/             # Reusable UI components
+│       ├── Card.jsx        # Card component
+│       ├── Input.jsx       # Input component
+│       ├── Loading.jsx     # Loading component
+│       ├── ErrorMessage.jsx# Error message component
+│       ├── EmptyState.jsx  # Empty state component
+│       └── CityPhoto.jsx   # City photo display component
 ├── routes/                 # Router configuration
 ├── styles/                 # Global styles
 └── design-system/         # Design tokens
+├── utils/                  # Utility functions
+│   └── hourlyDataProcessor.js # Hourly data processing utilities
+```
 ```
 
 ---

@@ -39,7 +39,7 @@ function WeatherIcon({ code, className = '' }) {
 export function CurrentWeather({ data, isLoading, error }) {
   if (isLoading) {
     return (
-      <Card>
+      <Card className="h-full flex items-center justify-center">
         <Loading />
       </Card>
     )
@@ -47,7 +47,7 @@ export function CurrentWeather({ data, isLoading, error }) {
 
   if (error) {
     return (
-      <Card>
+      <Card className="h-full flex items-center justify-center">
         <ErrorMessage message="Failed to load weather data. Please try again." />
       </Card>
     )
@@ -55,7 +55,7 @@ export function CurrentWeather({ data, isLoading, error }) {
 
   if (!data?.current) {
     return (
-      <Card>
+      <Card className="h-full flex items-center justify-center">
         <p className="text-gray-500 text-center py-8">Search for a city to see weather</p>
       </Card>
     )
@@ -64,8 +64,8 @@ export function CurrentWeather({ data, isLoading, error }) {
   const { current } = data
 
   return (
-    <Card>
-      <div className="flex flex-col items-center">
+    <Card className="h-full flex flex-col">
+      <div className="flex flex-col items-center flex-grow">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">Now</h2>
         <WeatherIcon code={current.weather_code} className="w-20 h-20 mb-4" />
         

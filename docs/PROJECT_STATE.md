@@ -54,7 +54,29 @@ This document tracks the **current status** of the weather website project.
   * All icons now blue (text-blue-500)
   * Custom chart tooltip (no duplicate values)
   * Hourly details: 5AM-3AM with 3-hour interval
-  * Consistent icon colors across all pages
+  * Added city photo integration
+    - Added photo display component for cities
+    - Integrated with Unsplash API for city imagery
+    - Added caching and fallback mechanisms
+    - Photo displayed below current weather on landing page
+* Phase 8: Layout Reorganization ✅
+  * City photo now displayed at top of landing page with full width
+  * Current weather on left, 7-day forecast on right (two-column layout)
+  * Hourly forecast chart displayed below the two-column layout
+  * Enhanced responsive design for all screen sizes
+* Phase 9: Navigation Bar Optimization ✅
+  * Logo, search bar, and nav links now in single horizontal line
+  * Navbar width matches main content container width
+  * Search bar expands through full available width
+  * Eliminated extra right-side gaps in navbar layout
+* Phase 10: Hourly Details Chart Implementation ✅
+  * Temperature chart (actual vs feels-like) ✅
+  * Wind speed chart with fixed Y-axis ✅
+  * Humidity + precipitation chart with dual axes ✅
+  * Layout: One chart per row with responsive design ✅
+  * Integration: Using existing design system colors and components ✅
+
+---
 
 ---
 
@@ -71,3 +93,4 @@ See ROADMAP.md for detailed task list.
 * All weather icons use Wi library with blue color
 * Chart displays 5AM-3AM with 3-hour intervals
 * All features working
+* City photo functionality requires Unsplash API key (optional, falls back to default image)

@@ -113,6 +113,7 @@ API Client → TanStack Query Hooks → Feature Component → UI Component
   * TanStack Query hooks: useCurrentWeather, useForecast
 * Query keys centralized in `queryKeys.js`
 * Base URL provided via `VITE_API_URL`
+* City photo service uses `VITE_UNSPLASH_ACCESS_KEY` for Unsplash API integration
 
 ---
 
@@ -165,6 +166,8 @@ API Client → TanStack Query Hooks → Feature Component → UI Component
 4. Add routes and navigation
 5. Handle all UI states (loading, error, empty, success)
 6. Use existing patterns and components
+7. Implement chart-based data visualization
+8. Follow established design system for charts
 
 ---
 

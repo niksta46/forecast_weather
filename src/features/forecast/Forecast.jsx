@@ -194,6 +194,7 @@ export function Forecast({ data, isLoading, error }) {
     )
   }
 
+  // Handle case where only hourly or only daily data is provided
   if (!data?.hourly && !data?.daily) {
     return null
   }

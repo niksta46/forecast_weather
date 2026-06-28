@@ -36,20 +36,26 @@ export function Layout() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between mb-4">
+      <header className="bg-white shadow-sm sticky top-0 z-10">
+        <div className="max-w-6xl mx-auto px-4 py-2">
+          <div className="grid grid-cols-[1fr,3fr,1fr] items-center gap-4">
             <a href="/" onClick={handleLogoClick} className="flex items-center gap-2 text-gray-800 hover:text-primary-600 transition-colors">
-              <Cloud className="w-6 h-6 text-primary-500" />
-              <span className="text-xl font-bold">Weather</span>
+              <Cloud className="w-5 h-5 text-primary-500" />
+              <span className="text-lg font-bold">Weather App</span>
             </a>
 
-            <nav className="flex gap-1">
+            <div className="w-full">
+              <Card className="p-1">
+                <LocationSearch onLocationSelect={handleLocationSelect} />
+              </Card>
+            </div>
+
+            <div className="flex justify-end gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-2 py-1 rounded-md text-xs font-medium transition-colors ${
                     location.pathname === link.path.split('?')[0]
                       ? 'bg-primary-50 text-primary-700'
                       : 'text-gray-600 hover:bg-gray-100'
@@ -58,22 +64,24 @@ export function Layout() {
                   {link.label}
                 </Link>
               ))}
-            </nav>
+            </div>
           </div>
 
-          <Card>
-            <LocationSearch onLocationSelect={handleLocationSelect} />
-          </Card>
-
-          {lat && lon && name && (
-            <p className="mt-3 text-sm text-gray-600">
-              Showing weather for: <strong>{name}</strong>
-            </p>
-          )}
+          <div className="mt-1">
+            {lat && lon && name ? (
+              <p className="text-xs text-gray-600">
+                Showing weather for: <strong>{name}</strong>
+              </p>
+            ) : (
+              <p className="text-xs text-gray-600">
+                Showing weather for: <strong>Tavullia</strong>
+              </p>
+            )}
+          </div>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <main className="max-w-6xl mx-auto px-4 py-4">
         <Outlet context={{ lat, lon, name }} />
       </main>
     </div>

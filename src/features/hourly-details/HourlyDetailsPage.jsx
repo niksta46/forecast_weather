@@ -1,8 +1,10 @@
 import { useSearchParams } from 'react-router-dom'
 import { useCurrentWeather, useForecast } from '../../api/endpoints'
-import { Card, Loading, ErrorMessage, Button } from '../../components/common'
+import { Card, Loading, ErrorMessage } from '../../components/common'
 import { Droplets, Wind, Thermometer } from 'lucide-react'
 import { useMemo } from 'react'
+import { TemperatureChart, WindChart, HumidityPrecipitationChart } from '../../components/charts/HourlyCharts'
+import { hourlyDataProcessor } from '../../utils/hourlyDataProcessor'
 
 const weatherCodeMap = {
   0: { label: 'Clear' },
@@ -65,6 +67,19 @@ export function HourlyDetailsPage() {
       .filter((_, index) => index % 3 === 0)
   }, [forecastData])
 
+  // Process data for charts
+  const temperatureChartData = useMemo(() => {
+    return hourlyDataProcessor.processTemperatureData(hourlyData)
+  }, [hourlyData])
+
+  const windChartData = useMemo(() => {
+    return hourlyDataProcessor.processWindData(hourlyData)
+  }, [hourlyData])
+
+  const humidityPrecipChartData = useMemo(() => {
+    return hourlyDataProcessor.processHumidityPrecipData(hourlyData)
+  }, [hourlyData])
+
   const isLoading = weatherLoading || forecastLoading
   const error = weatherError || forecastError
 
@@ -73,7 +88,6 @@ export function HourlyDetailsPage() {
       <Card>
         <div className="text-center py-8">
           <p className="text-gray-500 mb-4">No location selected.</p>
-          <Button onClick={() => navigate('/')}>Go Back Home</Button>
         </div>
       </Card>
     )
@@ -107,7 +121,19 @@ export function HourlyDetailsPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="flex items-center gap-3">
               <Thermometer className="w-5 h-5 text-blue-500" />
+              <div>
+                <p className="text-sm text-gray-500">Feels like</p>
+                <p className="font-semibold">{Math.round(weatherData.current?.apparent_temperature)}°</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
               <Droplets className="w-5 h-5 text-blue-500" />
+              <div>
+                <p className="text-sm text-gray-500">Humidity</p>
+                <p className="font-semibold">{weatherData.current?.relative_humidity_2m}%</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
               <Wind className="w-5 h-5 text-blue-500" />
               <div>
                 <p className="text-sm text-gray-500">Wind</p>
@@ -122,41 +148,10 @@ export function HourlyDetailsPage() {
         </Card>
       )}
 
-      <Card>
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">24-Hour Forecast</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[500px]">
-            <thead>
-              <tr className="text-left text-sm text-gray-500 border-b">
-                <th className="pb-3 font-medium">Time</th>
-                <th className="pb-3 font-medium">Temp</th>
-                <th className="pb-3 font-medium">Feels</th>
-                <th className="pb-3 font-medium">Humidity</th>
-                <th className="pb-3 font-medium">Wind</th>
-                <th className="pb-3 font-medium">Precip</th>
-              </tr>
-            </thead>
-            <tbody>
-              {hourlyData.map((hour, index) => (
-                <tr key={index} className="border-b border-gray-100 last:border-0">
-                  <td className="py-3 text-sm">
-                    {hour.time.toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric', hour12: true })}
-                  </td>
-                  <td className="py-3 font-medium">{Math.round(hour.temp)}°</td>
-                  <td className="py-3 text-gray-500">{Math.round(hour.feelsLike)}°</td>
-                  <td className="py-3 text-gray-500">{hour.humidity}%</td>
-                  <td className="py-3 text-gray-500">{Math.round(hour.windSpeed)} km/h</td>
-                  <td className="py-3">
-                    <span className={`text-sm ${hour.precipProb > 30 ? 'text-blue-500' : 'text-gray-500'}`}>
-                      {hour.precipProb}%
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Card>
+      {/* Charts Section - One chart per row */}
+      <TemperatureChart data={temperatureChartData} />
+      <WindChart data={windChartData} />
+      <HumidityPrecipitationChart data={humidityPrecipChartData} />
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import { useOutletContext } from 'react-router-dom'
 import { CurrentWeather } from '../current-weather'
 import { Forecast } from '../forecast'
+import { CityPhoto } from '../../components/common/CityPhoto'
 import { useCurrentWeather, useForecast } from '../../api/endpoints'
 
 const DEFAULT_LOCATION = {
@@ -23,23 +24,43 @@ export function HomePage() {
 
   return (
     <div className="space-y-6">
-      {isDefault && (
-        <p className="text-sm text-gray-500 text-center">
-          Showing weather for <strong>{name}</strong>, Italy
-        </p>
-      )}
-      
-      <CurrentWeather
-        data={weatherData}
-        isLoading={weatherLoading}
-        error={weatherError}
-      />
+      {/* Full-width city photo at the top */}
+      <div className="w-full">
+        <CityPhoto cityName={name} className="h-56 md:h-64 lg:h-80 object-cover" />
+      </div>
 
-      <Forecast
-        data={forecastData}
-        isLoading={forecastLoading}
-        error={forecastError}
-      />
+      {/* Two-column layout for current weather and 7-day forecast */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="h-full">
+          <CurrentWeather
+            data={weatherData}
+            isLoading={weatherLoading}
+            error={weatherError}
+          />
+        </div>
+        <div className="h-full">
+          {forecastData?.daily && (
+            <div className="h-full">
+              <Forecast
+                data={{ daily: forecastData.daily }}
+                isLoading={forecastLoading}
+                error={forecastError}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Hourly forecast chart below */}
+      <div className="w-full">
+        {forecastData?.hourly && (
+          <Forecast
+            data={{ hourly: forecastData.hourly }}
+            isLoading={forecastLoading}
+            error={forecastError}
+          />
+        )}
+      </div>
     </div>
   )
 }

@@ -128,31 +128,45 @@ Make the empty landing page more professional and user-friendly.
 ## Phase 7: Weather Visualization
 
 ### Goal
-
 Enhance weather display with charts and better icons.
 
 ### Tasks
-
 - [x] Add hourly temperature chart (recharts library)
 - [x] Replace Lucide icons with Wi (Weather Icons) library for filled icons
 - [x] Make all weather icons blue (text-blue-500)
 - [x] Add custom tooltip for chart (no duplicate values)
 - [x] Update hourly details to show 5AM-3AM with 3-hour interval
+- [x] Add city photo integration
+  - Added photo display component for cities
+  - Integrated with Unsplash API for city imagery
+  - Added caching and fallback mechanisms
 
 ---
 
-## Phase 8: Polish & Responsiveness
+## Phase 8: Layout Reorganization
 
 ### Goal
-
-Ensure mobile-friendly and polished UI.
+Reorganize landing page layout for better visual hierarchy and user experience.
 
 ### Tasks
+- [x] City photo now displayed at top of landing page with full width
+- [x] Current weather on left, 7-day forecast on right (two-column layout)
+- [x] Hourly forecast chart displayed below the two-column layout
+- [x] Enhanced responsive design for all screen sizes
 
-- [ ] Mobile responsive layouts
-- [ ] Loading skeletons
-- [ ] Smooth transitions
-- [ ] Error boundaries
+---
+
+## Phase 10: Hourly Details Chart Implementation
+
+### Goal
+Replace table-based hourly data display with interactive chart visualizations.
+
+### Tasks
+- [x] Temperature chart (actual vs feels-like)
+- [x] Wind speed chart with fixed Y-axis
+- [x] Humidity + precipitation chart with dual axes
+- [x] Layout: One chart per row with responsive design
+- [x] Integration: Using existing design system colors and components
 
 ---
 
