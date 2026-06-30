@@ -1,11 +1,12 @@
-import { Outlet, Link, useLocation, useSearchParams } from 'react-router-dom'
-import { Cloud } from 'lucide-react'
+import { Outlet, Link, useLocation, useSearchParams, useNavigate } from 'react-router-dom'
+import { Cloud, MapPin } from 'lucide-react'
 import { LocationSearch } from '../../features/location-search'
 import { Card } from '../../components/common'
 
 export function Layout() {
   const location = useLocation()
   const [searchParams, setSearchParams] = useSearchParams()
+  const navigate = useNavigate()
 
   const lat = searchParams.get('lat')
   const lon = searchParams.get('lon')
@@ -17,6 +18,71 @@ export function Layout() {
       lon: location.longitude,
       name: location.name,
     })
+  }
+
+  const handleCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      console.error('Geolocation is not supported by this browser.')
+      return
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        // Get location name using reverse geocoding
+        fetch(
+          `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            const locationData = {
+              name: data.results[0]?.name || 'Unknown Location',
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              country: data.results[0]?.country || '',
+            }
+            handleLocationSelect(locationData)
+            // Navigate to home page if not already there
+            if (location.pathname !== '/') {
+              navigate('/')
+            }
+          })
+          .catch((error) => {
+            console.error('Error getting location name:', error)
+            // Fallback: use coordinates as name
+            const locationData = {
+              name: `${position.coords.latitude.toFixed(2)}, ${position.coords.longitude.toFixed(2)}`,
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              country: '',
+            }
+            handleLocationSelect(locationData)
+            if (location.pathname !== '/') {
+              navigate('/')
+            }
+          })
+      },
+      (error) => {
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            console.error('User denied the request for Geolocation.')
+            break
+          case error.POSITION_UNAVAILABLE:
+            console.error('Location information is unavailable.')
+            break
+          case error.TIMEOUT:
+            console.error('The request to get user location timed out.')
+            break
+          default:
+            console.error('An unknown error occurred.')
+            break
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 600000, // 10 minutes
+      }
+    )
   }
 
   const navLinks = [
@@ -44,11 +110,19 @@ export function Layout() {
               <span className="text-lg font-bold">Weather App</span>
             </a>
 
-            <div className="w-full">
-              <Card className="p-1">
-                <LocationSearch onLocationSelect={handleLocationSelect} />
-              </Card>
-            </div>
+           <div className="w-full">
+             <Card className="p-1">
+               <LocationSearch onLocationSelect={handleLocationSelect} />
+               <button
+                 type="button"
+                 onClick={handleCurrentLocation}
+                 className="mt-1 w-full text-left px-3 py-2 text-xs text-gray-600 hover:text-gray-800 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors flex items-center gap-2"
+               >
+                 <MapPin className="w-3 h-3" />
+                 Use Current Location
+               </button>
+             </Card>
+           </div>
 
             <div className="flex justify-end gap-1">
               {navLinks.map((link) => (

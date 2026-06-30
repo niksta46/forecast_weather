@@ -118,10 +118,8 @@ Make the empty landing page more professional and user-friendly.
 ### Tasks
 
 - [x] Option 1: Default City Display - Show weather for Tavullia, Italy on landing
-- [ ] Option 2: Call-to-Action - "Search for a city" message
-- [ ] Option 3: Popular Cities Quick Links - Pre-defined popular cities
-- [ ] Option 4: Use Current Location - Browser geolocation button
-- [ ] Option 5: Recent Searches - Store last searched cities in localStorage
+- [x] Option 4: Use Current Location - Browser geolocation button
+- [x] Option 5: Recent Searches - Store last searched cities in localStorage
 
 ---
 
@@ -156,17 +154,20 @@ Reorganize landing page layout for better visual hierarchy and user experience.
 
 ---
 
-## Phase 10: Hourly Details Chart Implementation
+## Phase 11: Day-Specific Hourly Forecast
 
 ### Goal
-Replace table-based hourly data display with interactive chart visualizations.
+Enable clicking on days in the 7-day forecast to view detailed hourly weather data.
 
 ### Tasks
-- [x] Temperature chart (actual vs feels-like)
-- [x] Wind speed chart with fixed Y-axis
-- [x] Humidity + precipitation chart with dual axes
-- [x] Layout: One chart per row with responsive design
-- [x] Integration: Using existing design system colors and components
+- [ ] Add day selection to homepage: Click day card to show corresponding hourly data
+- [ ] Highlight selected day in daily forecast list
+- [ ] Update hourly chart to display data only for selected day
+- [ ] Implement expandable day cards in Weekly Forecast page
+- [ ] Add toggle to show/hide hourly data in expanded cards
+- [ ] Ensure data filtering works efficiently with existing API calls
+- [ ] Maintain consistent styling and design system
+- [ ] Test on mobile and desktop views
 
 ---
 

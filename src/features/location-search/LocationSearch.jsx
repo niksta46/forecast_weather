@@ -2,14 +2,21 @@ import { useState, useRef, useEffect } from 'react'
 import { Search, MapPin } from 'lucide-react'
 import { useLocationSearch } from '../../api/endpoints'
 import { Input, Loading } from '../../components/common'
+import { getRecentSearches, addRecentSearch, clearRecentSearches } from '../../utils/recent-searches'
 
 export function LocationSearch({ onLocationSelect }) {
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [justSelected, setJustSelected] = useState(false)
+  const [recentSearches, setRecentSearches] = useState([])
   const wrapperRef = useRef(null)
 
   const { data: results, isLoading } = useLocationSearch(query)
+
+  useEffect(() => {
+    // Load recent searches when component mounts
+    setRecentSearches(getRecentSearches())
+  }, [])
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -31,12 +38,35 @@ export function LocationSearch({ onLocationSelect }) {
     setJustSelected(true)
     setIsOpen(false)
     setQuery(location.name)
+    // Add to recent searches
+    addRecentSearch({
+      name: location.name,
+      lat: location.latitude,
+      lon: location.longitude,
+    })
     onLocationSelect({
       name: location.name,
       latitude: location.latitude,
       longitude: location.longitude,
       country: location.country,
     })
+  }
+
+  const handleRecentSelect = (search) => {
+    setJustSelected(true)
+    setIsOpen(false)
+    setQuery(search.name)
+    onLocationSelect({
+      name: search.name,
+      latitude: search.lat,
+      longitude: search.lon,
+      country: '',
+    })
+  }
+
+  const handleClearRecent = () => {
+    clearRecentSearches()
+    setRecentSearches([])
   }
 
   const handleInputChange = (e) => {
@@ -64,25 +94,69 @@ export function LocationSearch({ onLocationSelect }) {
         )}
       </div>
 
-      {isOpen && results?.results?.length > 0 && (
+      {isOpen && (
         <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-          {results.results.map((location) => (
-            <li key={location.id}>
+          {/* Recent searches */}
+          {recentSearches.length > 0 && !query && (
+            <li className="px-4 py-2 text-xs font-medium text-gray-500 border-b border-gray-100">
+              Recent searches
               <button
                 type="button"
-                onClick={() => handleSelect(location)}
-                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left"
+                onClick={handleClearRecent}
+                className="float-right text-xs text-gray-400 hover:text-gray-600"
               >
-                <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                <div>
-                  <p className="font-medium text-gray-800">{location.name}</p>
-                  <p className="text-sm text-gray-500">
-                    {location.admin1 && `${location.admin1}, `}{location.country}
-                  </p>
-                </div>
+                Clear
               </button>
             </li>
-          ))}
+          )}
+          {recentSearches.length > 0 && !query && (
+            <>
+              {recentSearches.map((search) => (
+                <li key={search.name + search.lat + search.lon}>
+                  <button
+                    type="button"
+                    onClick={() => handleRecentSelect(search)}
+                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left"
+                  >
+                    <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-gray-800">{search.name}</p>
+                    </div>
+                  </button>
+                </li>
+              ))}
+            </>
+          )}
+          
+          {/* Search results */}
+          {results?.results?.length > 0 && (
+            <>
+              {recentSearches.length > 0 && !query && (
+                <li className="border-t border-gray-100">
+                  <div className="px-4 py-2 text-xs font-medium text-gray-500">
+                    Search results
+                  </div>
+                </li>
+              )}
+              {results.results.map((location) => (
+                <li key={location.id}>
+                  <button
+                    type="button"
+                    onClick={() => handleSelect(location)}
+                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left"
+                  >
+                    <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-gray-800">{location.name}</p>
+                      <p className="text-sm text-gray-500">
+                        {location.admin1 && `${location.admin1}, `}{location.country}
+                      </p>
+                    </div>
+                  </button>
+                </li>
+              ))}
+            </>
+          )}
         </ul>
       )}
     </div>

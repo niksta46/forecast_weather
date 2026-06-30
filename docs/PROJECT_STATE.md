@@ -24,7 +24,7 @@ This document tracks the **current status** of the weather website project.
 
 ## Current Phase
 
-**Phase 7: Weather Visualization** (Completed)
+**Phase 6: Landing Page Enhancements** (Completed)
 
 ---
 
@@ -48,6 +48,8 @@ This document tracks the **current status** of the weather website project.
   * Search bar moved to navbar
 * Phase 6: Landing Page Enhancements ✅
   * Option 1: Default city (Tavullia, Italy) shown on landing
+  * Option 4: Use Current Location button added
+  * Option 5: Recent Searches functionality implemented
 * Phase 7: Weather Visualization ✅
   * Added hourly temperature chart (recharts)
   * Replaced Lucide icons with Wi (Weather Icons) library
@@ -75,8 +77,6 @@ This document tracks the **current status** of the weather website project.
   * Humidity + precipitation chart with dual axes ✅
   * Layout: One chart per row with responsive design ✅
   * Integration: Using existing design system colors and components ✅
-
----
 
 ---
 
