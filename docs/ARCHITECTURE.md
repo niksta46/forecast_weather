@@ -41,8 +41,7 @@ src/
 │   ├── forecast/           # Forecast display (hourly + daily)
 │   ├── hourly-details/     # Hourly details page
 │   ├── weekly-forecast/    # Weekly forecast page
-│   ├── location-search/    # Location search
-│   └── photoService.js     # City photo service
+│   └── location-search/    # Location search
 ├── components/
 │   ├── layout/             # Layout, Header, Navigation
 │   │   └── Layout.jsx      # Main application layout
@@ -53,8 +52,7 @@ src/
 │       ├── Input.jsx       # Input component
 │       ├── Loading.jsx     # Loading component
 │       ├── ErrorMessage.jsx# Error message component
-│       ├── EmptyState.jsx  # Empty state component
-│       └── CityPhoto.jsx   # City photo display component
+│       └── EmptyState.jsx  # Empty state component
 ├── routes/                 # Router configuration
 ├── styles/                 # Global styles
 └── design-system/         # Design tokens

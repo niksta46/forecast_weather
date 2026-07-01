@@ -215,3 +215,22 @@ Agents must respect this separation at all times.
 * Follow established design system
 * Keep components focused and readable
 * Use TypeScript if project requires it (not default)
+
+---
+
+## Automation for Task Completion
+
+When a task is completed, the agent will:
+
+- Ask the user: "Do you believe this task has been completed?"
+  - If user answers "yes", proceed with automation
+  - If user answers "no", wait for further instructions
+
+- Update PROJECT_STATE.md:
+  - Write down the completed task(s) at the corresponding phase
+  - Add ✅ tick at the completed task(s)
+
+- Update ROADMAP.md:
+  - Add ✅ tick at the completed task(s) in the corresponding phase
+  - Delete completed task(s) from the "Core Tasks" section in Phase 11
+

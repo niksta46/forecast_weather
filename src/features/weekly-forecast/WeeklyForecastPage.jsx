@@ -2,7 +2,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useForecast } from '../../api/endpoints'
 import { Card, Loading, ErrorMessage, Button } from '../../components/common'
 import { Droplets } from 'lucide-react'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import * as Wi from 'react-icons/wi'
 
 const weatherCodeMap = {
@@ -39,6 +39,7 @@ function WeatherIcon({ code, className = '' }) {
 export function WeeklyForecastPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const [selectedDayIndex, setSelectedDayIndex] = useState(null)
   
   const latitude = searchParams.get('lat')
   const longitude = searchParams.get('lon')
@@ -88,6 +89,13 @@ export function WeeklyForecastPage() {
     )
   }
 
+  const handleDayClick = (index) => {
+    setSelectedDayIndex(index);
+    // Navigate to hourly details page with the selected day's date
+    const selectedDate = dailyData[index].date.toISOString().split('T')[0];
+    navigate(`/hourly?lat=${latitude}&lon=${longitude}&name=${locationName}&date=${selectedDate}`);
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -97,7 +105,13 @@ export function WeeklyForecastPage() {
 
       <div className="grid gap-4">
         {dailyData.map((day, index) => (
-          <Card key={index}>
+          <Card 
+            key={index} 
+            className={`cursor-pointer transition-all duration-200 ${
+              selectedDayIndex === index ? 'ring-2 ring-blue-500' : 'hover:shadow-md'
+            }`}
+            onClick={() => handleDayClick(index)}
+          >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="w-16">

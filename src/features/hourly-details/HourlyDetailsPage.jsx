@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useCurrentWeather, useForecast } from '../../api/endpoints'
 import { Card, Loading, ErrorMessage } from '../../components/common'
 import { Droplets, Wind, Thermometer } from 'lucide-react'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { TemperatureChart, WindChart, HumidityPrecipitationChart } from '../../components/charts/HourlyCharts'
 import { hourlyDataProcessor } from '../../utils/hourlyDataProcessor'
 
@@ -36,6 +36,7 @@ export function HourlyDetailsPage() {
   const latitude = searchParams.get('lat')
   const longitude = searchParams.get('lon')
   const locationName = searchParams.get('name') || 'Selected Location'
+  const selectedDateParam = searchParams.get('date')
 
   const { data: weatherData, isLoading: weatherLoading, error: weatherError } = useCurrentWeather(
     latitude,
@@ -53,7 +54,13 @@ export function HourlyDetailsPage() {
     const today5am = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 5, 0, 0)
     const tomorrow3am = new Date(today5am.getTime() + 22 * 60 * 60 * 1000)
     
-    return forecastData.hourly.time
+    // Parse selected date if provided
+    let selectedDate = null;
+    if (selectedDateParam) {
+      selectedDate = new Date(selectedDateParam);
+    }
+    
+    let filteredData = forecastData.hourly.time
       .map((time, index) => ({
         time: new Date(time),
         temp: forecastData.hourly.temperature_2m[index],
@@ -65,7 +72,16 @@ export function HourlyDetailsPage() {
       }))
       .filter(h => h.time >= today5am && h.time <= tomorrow3am)
       .filter((_, index) => index % 3 === 0)
-  }, [forecastData])
+    
+    // If a date is selected, filter data for that specific day
+    if (selectedDate) {
+      filteredData = filteredData.filter(h => 
+        h.time.toDateString() === selectedDate.toDateString()
+      );
+    }
+    
+    return filteredData;
+  }, [forecastData, selectedDateParam])
 
   // Process data for charts
   const temperatureChartData = useMemo(() => {
@@ -109,11 +125,20 @@ export function HourlyDetailsPage() {
     )
   }
 
+  // Determine display date
+  const displayDate = selectedDateParam 
+    ? new Date(selectedDateParam).toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        month: 'long', 
+        day: 'numeric' 
+      })
+    : 'Today';
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-800">Hourly Details</h1>
-        <p className="text-gray-500">{locationName}</p>
+        <p className="text-gray-500">{locationName} - {displayDate}</p>
       </div>
 
       {weatherData && (

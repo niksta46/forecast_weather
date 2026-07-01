@@ -22,12 +22,6 @@ This document tracks the **current status** of the weather website project.
 
 ---
 
-## Current Phase
-
-**Phase 6: Landing Page Enhancements** (Completed)
-
----
-
 ## Completed Tasks
 
 * Agent configuration: AGENTS.md ✅
@@ -56,13 +50,7 @@ This document tracks the **current status** of the weather website project.
   * All icons now blue (text-blue-500)
   * Custom chart tooltip (no duplicate values)
   * Hourly details: 5AM-3AM with 3-hour interval
-  * Added city photo integration
-    - Added photo display component for cities
-    - Integrated with Unsplash API for city imagery
-    - Added caching and fallback mechanisms
-    - Photo displayed below current weather on landing page
 * Phase 8: Layout Reorganization ✅
-  * City photo now displayed at top of landing page with full width
   * Current weather on left, 7-day forecast on right (two-column layout)
   * Hourly forecast chart displayed below the two-column layout
   * Enhanced responsive design for all screen sizes
@@ -77,6 +65,8 @@ This document tracks the **current status** of the weather website project.
   * Humidity + precipitation chart with dual axes ✅
   * Layout: One chart per row with responsive design ✅
   * Integration: Using existing design system colors and components ✅
+* Phase 11: Day-Specific Hourly Forecast
+  * Add day selection to homepage: Click day card to show corresponding hourly data ✅
 
 ---
 
@@ -88,9 +78,7 @@ See ROADMAP.md for detailed task list.
 
 ## Notes
 
-* Phase 1-7 completed
 * Landing page shows Tavullia, Italy weather by default
 * All weather icons use Wi library with blue color
 * Chart displays 5AM-3AM with 3-hour intervals
 * All features working
-* City photo functionality requires Unsplash API key (optional, falls back to default image)
