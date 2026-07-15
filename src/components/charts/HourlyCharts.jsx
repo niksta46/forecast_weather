@@ -31,6 +31,7 @@ export function TemperatureChart({ data }) {
               tick={{ fontSize: 12, fill: '#6B7280' }}
               tickLine={false}
               axisLine={false}
+              tickFormatter={(value) => `${value}°C`}
             />
             <Tooltip 
               contentStyle={{ 
@@ -88,10 +89,11 @@ export function WindChart({ data }) {
               tickLine={false}
             />
             <YAxis 
-              domain={[0, 50]} // Fixed Y-axis from 0 to 50 km/h
+              domain={[0, 50]}
               tick={{ fontSize: 12, fill: '#6B7280' }}
               tickLine={false}
               axisLine={false}
+              label={{ value: '(km/h)', angle: -90, position: 'insideLeft', style: { fontSize: 12, fill: '#6B7280' } }}
             />
             <Tooltip 
               contentStyle={{ 

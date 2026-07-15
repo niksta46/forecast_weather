@@ -85,14 +85,14 @@ export function Layout() {
     )
   }
 
+  const defaultLat = lat || '43.89791'
+  const defaultLon = lon || '12.75108'
+  const defaultName = name || 'Tavullia'
+
   const navLinks = [
-    ...(lat && lon && name
-      ? [
-          { path: `/?lat=${lat}&lon=${lon}&name=${encodeURIComponent(name)}`, label: 'Home' },
-          { path: `/hourly?lat=${lat}&lon=${lon}&name=${encodeURIComponent(name)}`, label: 'Hourly' },
-          { path: `/weekly?lat=${lat}&lon=${lon}&name=${encodeURIComponent(name)}`, label: 'Weekly' },
-        ]
-      : []),
+    { path: `/?lat=${defaultLat}&lon=${defaultLon}&name=${encodeURIComponent(defaultName)}`, label: 'Home' },
+    { path: `/hourly?lat=${defaultLat}&lon=${defaultLon}&name=${encodeURIComponent(defaultName)}`, label: 'Hourly' },
+    { path: `/weekly?lat=${defaultLat}&lon=${defaultLon}&name=${encodeURIComponent(defaultName)}`, label: 'Weekly' },
   ]
 
   const handleLogoClick = (e) => {
@@ -113,14 +113,19 @@ export function Layout() {
            <div className="w-full">
              <Card className="p-1">
                <LocationSearch onLocationSelect={handleLocationSelect} />
-               <button
-                 type="button"
-                 onClick={handleCurrentLocation}
-                 className="mt-1 w-full text-left px-3 py-2 text-xs text-gray-600 hover:text-gray-800 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors flex items-center gap-2"
-               >
-                 <MapPin className="w-3 h-3" />
-                 Use Current Location
-               </button>
+               <div className="mt-1 flex items-center justify-between">
+                 <p className="text-xs text-gray-600">
+                   Showing weather for: <strong>{lat && lon && name ? name : 'Tavullia'}</strong>
+                 </p>
+                 <button
+                   type="button"
+                   onClick={handleCurrentLocation}
+                   className="text-xs text-gray-600 hover:text-gray-800 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors flex items-center gap-1 px-2 py-1"
+                 >
+                   <MapPin className="w-3 h-3" />
+                   Use Current Location
+                 </button>
+               </div>
              </Card>
            </div>
 
@@ -141,17 +146,6 @@ export function Layout() {
             </div>
           </div>
 
-          <div className="mt-1">
-            {lat && lon && name ? (
-              <p className="text-xs text-gray-600">
-                Showing weather for: <strong>{name}</strong>
-              </p>
-            ) : (
-              <p className="text-xs text-gray-600">
-                Showing weather for: <strong>Tavullia</strong>
-              </p>
-            )}
-          </div>
         </div>
       </header>
 
