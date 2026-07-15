@@ -65,8 +65,7 @@ This document tracks the **current status** of the weather website project.
   * Humidity + precipitation chart with dual axes ✅
   * Layout: One chart per row with responsive design ✅
   * Integration: Using existing design system colors and components ✅
-* Phase 11: Day-Specific Hourly Forecast
-  * Add day selection to homepage: Click day card to show corresponding hourly data ✅
+
 
 ---
 
